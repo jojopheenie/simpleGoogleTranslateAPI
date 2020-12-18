@@ -2,31 +2,22 @@
 import React, {Component} from 'react'
 import { translateOne } from '../store/reducer/message'
 import {connect} from 'react-redux'
-import { Button, Form, Container, Row, Alert, OverlayTrigger, Tooltip } from 'react-bootstrap'
+import { Button, Form, Container, Row, Col, OverlayTrigger, Tooltip } from 'react-bootstrap'
 
 export class Messages extends Component {
   constructor() {
     super()
     this.state = {
       message: '',
-      lang: 'ENG',
-      show: false
+      lang: 'ENG'
     }
     this.onChange = this.onChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
-    this.Show = this.Show.bind(this)
   }
 
   onChange(event) {
     event.preventDefault()
     this.setState({[event.target.name]: event.target.value})
-  }
-
-  Show() {
-    let {show} = this.state
-    this.setState({
-      show: !show
-    })
   }
 
   handleSubmit(event) {
@@ -39,9 +30,8 @@ export class Messages extends Component {
           console.error(err)
         }
       this.setState({
-        message: '',
-        lang: 'ENG',
-        translate: ''
+        message: message,
+        lang: lang
       })
     }
 
@@ -76,11 +66,16 @@ export class Messages extends Component {
                     <option value="RUS">Russian</option>
                     <option value="SPA">Spanish</option>
           </Form.Control>
+          <Container>
+          <Row>
+            <Col>
           <Button
             variant="secondary"
             type="submit"
-            onClick={() => {this.handleSubmit(); this.Show();}}
+            onClick={this.handleSubmit}
           >Translate</Button>
+          </Col>
+          <Col>
           <OverlayTrigger
              key="placement"
              placement="top"
@@ -90,8 +85,11 @@ export class Messages extends Component {
                </Tooltip>
              }
            >
-            <h6 className="text-center">Hover for result</h6>
+            <h6>Hover for result</h6>
           </OverlayTrigger>
+          </Col>
+          </Row>
+          </Container>
       </Form>
       </Container>
   )
