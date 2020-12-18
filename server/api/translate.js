@@ -31,7 +31,6 @@ async function translater(text, target) {
 }
 
 router.post('/', async (req, res, next) => {
-  console.log("req.body", req.body)
   try {
     apiId = process.env.API_ID
     let q = req.body.q
