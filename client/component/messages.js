@@ -1,91 +1,113 @@
 /* eslint-disable */
 import React, {Component} from 'react'
-import { translateOne } from '../store'
+import { translateOne } from '../store/reducer/message'
 import {connect} from 'react-redux'
-import { Form, InputGroup, Button} from 'react-bootstrap'
+import { Button, Form, Container, Row, Alert, OverlayTrigger, Tooltip } from 'react-bootstrap'
 
 export class Messages extends Component {
   constructor() {
     super()
     this.state = {
       message: '',
-      translate: {},
-      lang: 'ENG'
+      lang: 'ENG',
+      show: false
     }
-    this.handleChange = this.handleChange.bind(this)
+    this.onChange = this.onChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
-    this.translate = this.translate.bind(this)
+    this.Show = this.Show.bind(this)
   }
 
-  handleChange(event) {
-    this.setState({value: event.target.value})
+  onChange(event) {
+    event.preventDefault()
+    this.setState({[event.target.name]: event.target.value})
+  }
+
+  Show() {
+    let {show} = this.state
+    this.setState({
+      show: !show
+    })
   }
 
   handleSubmit(event) {
-      event.preventDefault()
+    event.preventDefault()
+    let message = this.state.message
+    let lang = this.state.lang
         try {
           this.props.translateOne(message, lang)
         } catch (err) {
           console.error(err)
         }
       this.setState({
-        message: ''
+        message: '',
+        lang: 'ENG',
+        translate: ''
       })
     }
 
   render() {
       return (
-        <div>
-      <InputGroup className="m-2 pr-3">
-        <FormControl
+        <Container>
+          <br />
+          <Row></Row>
+        <Form className="text-center" onSubmit={this.handleSubmit}>
+        <Form.Control
           placeholder="Type here"
-          as="textarea"
           type="text"
-          value={props.message}
-          name="new-message"
-          onChange={props.handleChange}
+          aria-label="sending text"
+          defaultValue={this.state.message}
+          name="message"
+          onChange={this.onChange}
         />
         <Form.Control
             as="select"
-            name="language"
-            type="language"
-            value={props.lang}
-          >
-            <option value="ENG">English </option>
-            <option value="ARA">Arabic</option>
-            <option value="CHI">Chinese</option>
-            <option value="FIL">Filipino</option>
-            <option value="FRE">French</option>
-            <option value="HIN">Hindi</option>
-            <option value="ja">Japanese</option>
-            <option value="KOR">Korean</option>
-            <option value="RUS">Russian</option>
-            <option value="SPA">Spanish</option>
+            name="lang"
+            type="select"
+            defaultValue={this.state.lang}
+            onChange={this.onChange}>
+                    <option value="ENG">English </option>
+                    <option value="ARA">Arabic</option>
+                    <option value="CHI">Chinese</option>
+                    <option value="FIL">Filipino</option>
+                    <option value="FRE">French</option>
+                    <option value="HIN">Hindi</option>
+                    <option value="ja">Japanese</option>
+                    <option value="KOR">Korean</option>
+                    <option value="RUS">Russian</option>
+                    <option value="SPA">Spanish</option>
           </Form.Control>
-        <InputGroup.Append>
           <Button
             variant="secondary"
             type="submit"
-            onClick={props.handleSubmit}
-          >Send</Button>
-        </InputGroup.Append>
-      </InputGroup>
-      <div><h4>{this.props.translate ? (<div>{this.props.translate}</div>) : (<div></div>)}</h4></div>
-    </div>
+            onClick={() => {this.handleSubmit(); this.Show();}}
+          >Translate</Button>
+          <OverlayTrigger
+             key="placement"
+             placement="top"
+             overlay={
+               <Tooltip id="tooltip-top">
+                 {this.props.translate}
+               </Tooltip>
+             }
+           >
+            <h6 className="text-center">Hover for result</h6>
+          </OverlayTrigger>
+      </Form>
+      </Container>
   )
   }
 }
 
 const mapState = state => {
   return {
-    translate: state.translated
+    translate: state.translate
   }
 }
 
 const mapDispatch = dispatch => {
   return {
     translateOne: (message, lang) =>
-      dispatch(translateOne(message, lang)),
+      dispatch(translateOne(message, lang))
   }
 }
 

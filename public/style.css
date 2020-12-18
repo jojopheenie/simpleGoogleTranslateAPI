@@ -1,0 +1,8 @@
+body {
+  font-family: 'Montserrat', sans-serif;
+  background-image: linear-gradient(#6bdf9b, #b5f0f0);
+  min-height: 100vh;
+  padding: 0;
+  margin: 0;
+  width: 100vw;
+}

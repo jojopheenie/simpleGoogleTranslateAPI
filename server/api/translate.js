@@ -31,19 +31,14 @@ async function translater(text, target) {
 }
 
 router.post('/', async (req, res, next) => {
+  console.log("req.body", req.body)
   try {
     apiId = process.env.API_ID
     let q = req.body.q
-    let lan = req.body.lan
-    let result = await translater(q, lan)
+    let lang = req.body.lang
+    let result = await translater(q, lang)
     res.json({translation: result})
   } catch (error) {
     next(err)
   }
-})
-
-router.use((req, res, next) => {
-  const error = new Error('Not Found')
-  error.status = 404
-  next(error)
 })

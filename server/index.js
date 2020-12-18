@@ -44,7 +44,7 @@ const createApp = () => {
   // session middleware with passport
   app.use(
     session({
-      secret: process.env.SESSION_SECRET,
+      secret: process.env.SESSION_SECRET || 'my best friend is Cody',
       store: sessionStore,
       resave: false,
       saveUninitialized: false
@@ -53,7 +53,7 @@ const createApp = () => {
   app.use(passport.initialize())
   app.use(passport.session())
 
-  app.use('/api', require('./api'))
+  app.use('/api/translate', require('./api/translate'))
 
   // static file-serving middleware
   app.use(express.static(path.join(__dirname, '..', 'public')))
@@ -93,8 +93,6 @@ const startListening = () => {
 const syncDb = () => db.sync()
 
 async function bootApp() {
-  await sessionStore.sync()
-  await syncDb()
   await createApp()
   await startListening()
 }
