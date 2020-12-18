@@ -11,4 +11,5 @@ Getting started:
 
 End Result:
 
-<a href="https://gyazo.com/1c62a31aa9892a11be26deb0780c3c57"><video alt="Video from Gyazo" width="500" autoplay muted loop playsinline controls><source src="https://i.gyazo.com/1c62a31aa9892a11be26deb0780c3c57.mp4" type="video/mp4" /></video></a>
+<a href="https://gyazo.com/1c62a31aa9892a11be26deb0780c3c57"><img src="https://i.gyazo.com/1c62a31aa9892a11be26deb0780c3c57.gif" alt="Image from Gyazo" width="500"/></a>
+
